@@ -1,4 +1,6 @@
 from nltk.corpus import stopwords
+from collections import defaultdict
+import math
 
 STOPWORDS = set(stopwords.words('english'))
 
@@ -50,6 +52,34 @@ def common_line_num(l:list) -> int: #l is the list of sets of line numbers, retu
                 if max_lines >= result:
                     result = max_lines
     return result
-            
+
+
+def idf(doc_num:int,df:float)->float:
+    return math.log10(doc_num/df)
+
+def tfidf(tf:int,df:int,doc_num:int)->float:
+    return (1 + math.log10(tf)) * idf(doc_num,df)
+
+def calculate_tfidf(index_dict:dict,total_doc_num:int):
+    for word,doc_dict in index_dict.items():
+        df = doc_dict.keys().length()
+        for id,doc_info in doc_dict.items():
+            doc_info["tf-idf"] = tfidf(doc_info["tf-idf"],df,total_doc_num)
+
+	
+#update index_dict with cite_num,line_num,term_freq
+def update_index_dict(index_dict:dict,doc:"Document"):
+    doc_id = doc.docID
+    num_of_cites = doc.num_of_cites
+    doc_dict = count_words(doc.content)
+    
+    for word,pair in doc_dict.items():
+        freq = pair[0]
+        index_dict[word][doc_id] = defaultdict(dict)
+        d = index_dict[word][doc_id]
+        d["line_num"] = list[pair[1]]
+        #store the tf temporarily
+        d["tf-idf"] = freq 
+        d["cite_num"] = num_of_cites
 
 
