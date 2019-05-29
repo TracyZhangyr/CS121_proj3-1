@@ -1,4 +1,5 @@
 from Document import Document
+import WordList
 
 def get_list_of_document(document_path):
     list_of_Document = []
@@ -13,4 +14,7 @@ def get_list_of_document(document_path):
 
 
 
-new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
+
+
+if __name__ == "__main__":
+	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
