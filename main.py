@@ -38,4 +38,5 @@ if __name__ == "__main__":
 	index_dict = defaultdict(dict)
 	indexing(index_dict,new_list)
 	write_dict(index_dict, "WordList.txt")
-	d = load_dict("WordList.txt")
+	#d = load_dict("WordList.txt")
+	#print(len(d.keys()))
