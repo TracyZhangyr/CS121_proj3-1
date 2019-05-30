@@ -80,6 +80,6 @@ def update_index_dict(index_dict:dict,doc:"Document"):
         d["line_num"] = list[pair[1]]
         #store the tf temporarily
         d["tf-idf"] = freq 
-        d["cite_num"] = num_of_cites
+        d["cite"] = num_of_cites
 
 
