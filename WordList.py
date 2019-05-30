@@ -77,7 +77,7 @@ def update_index_dict(index_dict:dict,doc:"Document"):
         freq = pair[0]
         index_dict[word][doc_id] = defaultdict(dict)
         d = index_dict[word][doc_id]
-        d["line_num"] = list[pair[1]]
+        d["line_num"] = list(pair[1])
         #store the tf temporarily
         d["tf-idf"] = freq 
         d["cite"] = num_of_cites

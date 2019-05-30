@@ -16,7 +16,7 @@ def get_list_of_document(document_path)->list:
 
 
 def indexing(index_dict:dict,doc_list:["Document"])->None:
-    total_doc_num = doc_list.length()
+    total_doc_num = len(doc_list)
     for doc in doc_list:
         WordList.update_index_dict(index_dict,doc)
     WordList.calculate_tfidf(index_dict,total_doc_num)
@@ -41,4 +41,4 @@ if __name__ == "__main__":
 	#dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
 	index_dict = defaultdict(dict)
 	indexing(index_dict,new_list)
-	
+	write_dict(index_dict)
