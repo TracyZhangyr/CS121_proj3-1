@@ -30,6 +30,26 @@ def load_dict(file_name:str)->dict:
 	file.close() 
 	return d
 
+#return ["url","description"]
+def get_url_and_descrip(docID:str)->list:
+    result = []
+    path = "WEBPAGES_RAW\\" + docID.replace('/', '\\')
+    doc_dict = load_dict(path)
+    url = doc_dict[docID]
+    result.append(url)
+    doc = Document(docID,url)
+    descrip = ""
+    for line in doc.content:
+        if len(descrip) < 100:
+            descrip += line
+        else:
+            break
+    result.append(descrip)
+    return result
+            
+def generate_top_urls(docIDs:["docID"])->[["url","descrip"]]:
+    return [get_url_and_descrip(docID) for docID in docIDs]  
+
 
 if __name__ == "__main__":
 	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
