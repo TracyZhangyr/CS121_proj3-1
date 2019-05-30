@@ -62,7 +62,7 @@ def tfidf(tf:int,df:int,doc_num:int)->float:
 
 def calculate_tfidf(index_dict:dict,total_doc_num:int):
     for word,doc_dict in index_dict.items():
-        df = doc_dict.keys().length()
+        df = len(doc_dict.keys())
         for id,doc_info in doc_dict.items():
             doc_info["tf-idf"] = tfidf(doc_info["tf-idf"],df,total_doc_num)
 
