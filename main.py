@@ -21,14 +21,14 @@ def indexing(index_dict:dict,doc_list:["Document"])->None:
         WordList.update_index_dict(index_dict,doc)
     WordList.calculate_tfidf(index_dict,total_doc_num)
 
-def write_dict(d:dict)->None:
+def write_dict(d:dict, file_name:str)->None:
 	js = json.dumps(d)   
-	file = open('WordList.txt', 'w+')  
+	file = open('file_name', 'w+')  
 	file.write(js)  
 	file.close()
 
-def load_dict()->dict:
-	file = open('WordList.txt', 'r') 
+def load_dict(file_name:str)->dict:
+	file = open('file_name', 'r') 
 	js = file.read()
 	d = json.loads(js)    
 	file.close() 
@@ -37,8 +37,9 @@ def load_dict()->dict:
 
 if __name__ == "__main__":
 	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
+	write_dict(new_list, "doc_list.txt")
 	
 	#dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
 	index_dict = defaultdict(dict)
 	indexing(index_dict,new_list)
-	write_dict(index_dict)
+	write_dict(index_dict, "WordList.txt")
