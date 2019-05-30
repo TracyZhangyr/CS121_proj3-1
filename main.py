@@ -41,3 +41,4 @@ if __name__ == "__main__":
 	#dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
 	index_dict = defaultdict(dict)
 	indexing(index_dict,new_list)
+	
