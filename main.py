@@ -58,9 +58,9 @@ def get_user_query() -> list:
     return query_list
 
 if __name__ == "__main__":
-	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
+    new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
     #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
-	index_dict = defaultdict(dict)
+    index_dict = defaultdict(dict)
     indexing(index_dict,new_list)
     write_dict(index_dict, "WordList.txt")
     #d = load_dict("WordList.txt")

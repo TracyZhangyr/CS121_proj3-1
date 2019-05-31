@@ -9,7 +9,7 @@ class Document:
         self.content = self.get_content_from_path(docID)
         
     
-    def get_content_from_path(self, docID) -> [string]:
+    def get_content_from_path(self, docID) -> ["string"]:
         list_of_string = []
         directory_path = self.change_to_directory_path(docID)
         try:
