@@ -35,12 +35,11 @@ def load_dict(file_name:str)->dict:
 	file.close() 
 	return d
 
-WORD_DICT = load_dict("WordList.txt")
 
 #return ["url","description"]
 def get_url_and_descrip(docID:str)->["url","descrip"]:
     result = []
-    path = "WEBPAGES_RAW\\" + docID.replace('/', '\\')
+    path = "WEBPAGES_RAW\\bookkeeping.json"
     doc_dict = load_dict(path)
     url = doc_dict[docID]
     result.append(url)
@@ -108,7 +107,7 @@ def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
     return doc_list
 
 def generate_word_dict()->None:
-	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
+    new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
     #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
     index_dict = defaultdict(dict)
     indexing(index_dict,new_list)
@@ -117,10 +116,11 @@ def generate_word_dict()->None:
     #print(len(d.keys()))
 
 def start_search()->None:
-	query_list = get_user_input_query()
+    WORD_DICT = load_dict("WordList.txt")
+    query_list = get_user_input_query()
     computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
     total_score_dict = computation.total_score_dict
-    score_pq = computation.score_priority_queue #priority queue that stores all the docID with score
+    score_pq = computation.score_priotiy_queue #priority queue that stores all the docID with score
     top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #e.g. get the top 20 docs
     #[["url","descrip"]]
     top_url_and_descrip_list = generate_top_urls(top_k_docs_list)

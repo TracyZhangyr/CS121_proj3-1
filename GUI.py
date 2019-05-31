@@ -8,7 +8,7 @@ class Gui(object):
         self.root.title("ICS Search Engine")
         
         # create a search/input bar
-        self.ip_input = tkinter.Entry(self.root, width = 70)
+        self.user_input = tkinter.Entry(self.root, width = 70)
 
         # create a display list
         self.display_info = tkinter.Listbox(self.root, width = 100, height = 50)
@@ -18,13 +18,13 @@ class Gui(object):
 
     # 完成布局
     def gui_arrang(self):
-        self.ip_input.pack()
+        self.user_input.pack()
         self.display_info.pack()
         self.result_button.pack()
 
     def get_result(self)->None:
         # get input
-        self.ip_addr = self.ip_input.get()
+        self.ip_addr = self.user_input.get()
         
         # clear the display list
         self.display_info.delete(0,'end')
