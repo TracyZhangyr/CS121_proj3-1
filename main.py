@@ -4,6 +4,7 @@ from collections import defaultdict
 import json
 from builtins import input
 import Cosine_computation
+from queue import PriorityQueue
 
 def get_list_of_document(document_path: str)->list:
     list_of_Document = []
@@ -84,16 +85,27 @@ def get_user_query(query:str) -> list:
 
 
 if __name__ == "__main__":
+    '''
     new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
     #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
     index_dict = defaultdict(dict)
     indexing(index_dict,new_list)
     write_dict(index_dict, "WordList.txt")
+    '''
     #d = load_dict("WordList.txt")
     #print(len(d.keys()))
-    query_list = get_user_query()
+    query_list = get_user_input_query()
     computation = Cosine_computation(query_list)
-    rank_list = computation.ranking()
+    total_score_dict = computation.total_score_dict
+    score_pq = computation.score_priority_queue #priority queue that stores all the docID with score
+    top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #e.g. get the top 20 docs
+    #[["url","descrip"]]
+    top_url_and_descrip_list = generate_top_urls(top_k_docs_list)
+    #Test
+    for i in top_url_and_descrip_list:
+        print(i[0])
+        print(i[1])
+        print()
     '''
     #Use for test before the GUI done 
     input_query = str(input("Please type your query: "))

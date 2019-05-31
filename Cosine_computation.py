@@ -2,17 +2,40 @@ from nltk.corpus import stopwords
 from main import load_dict
 from WordList import common_line_num
 import math
+from collections import defaultdict
+from queue import PriorityQueue
 
 STOPWORDS = set(stopwords.words('english'))
+
+class Score:
+    def __init__(self,docID:str,total_score:float):
+        self.docID = docID
+        self.total_score = total_score
+    
+    def __lt__(self,other):
+        if self.total_score <= other.total_score:
+            return False
+        else:
+            return True
 
 class Cosine_computation:
     def __init__(self, query_list:[]):
         self.query_list = self.eliminate_stop_words(query_list)
         self.word_dict = load_dict("WordList.txt")
         self.query_frequence_dict = self.get_query_frequency()
+        self.total_score_dict = self.ranking()
+        self.score_priotiy_queue = self.score_priotiy_queue()
+
         #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
-        
-    def ranking(self) -> list:
+    
+    def score_priotiy_queue(self)->PriorityQueue:
+        pq = PriorityQueue()
+        for docID,total_score in self.total_score_dict.items():
+            pq.put(Score(docID,total_score))
+        return pq
+  
+    
+    def ranking(self) -> dict:
         #score_dict = defaultdict(float)
         #query_length = len(query_list)
         query_normalization_vector = dict()
@@ -48,8 +71,8 @@ class Cosine_computation:
             line_num_score = self.get_line_num_score(line_num_list)
             cite_score = self.get_cite_score(cite)
             total_score_dict[docID] = cosine_score_dict[docID] + line_num_score + cite_score
-        return sorted(total_score_dict.keys(), key=lambda x: total_score_dict[x], reverse=True)
-        
+        #return sorted(total_score_dict.keys(), key=lambda x: total_score_dict[x], reverse=True)
+        return total_score_dict
     
     def eliminate_stop_words(self, query_list):
         new_list = []
