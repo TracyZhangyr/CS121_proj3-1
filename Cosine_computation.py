@@ -65,9 +65,15 @@ class Cosine_computation:
                     # dict {"docID": cosine_score}
 ############################################# cosine score ############################################
         
-        for docID in cosine_score_dict.keys():
-            line_num_list = doc_normalization_vector[docID]["line_num"]
-            cite = doc_normalization_vector[docID]["cite"]
+        for docID, inner_dict in doc_normalization_vector.items():
+            line_num_list = []
+            temp = 0
+            cite = 0
+            
+            for term in inner_dict.keys():
+                if temp == 0:
+                    cite = doc_normalization_vector[docID][term]["cite"]  #get cite for one time
+                line_num_list.append(doc_normalization_vector[docID][term]["line_num"])  #get list of list_num
             line_num_score = self.get_line_num_score(line_num_list)
             cite_score = self.get_cite_score(cite)
             total_score_dict[docID] = cosine_score_dict[docID] + line_num_score + cite_score
