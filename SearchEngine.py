@@ -89,14 +89,14 @@ def generate_report_part_2(file_name:str):
 
 
 def get_user_query(query:str) -> list:
-    user_input = query
+    user_input = query.lower()
     query_list = user_input.rstrip().split()
     return query_list
 
-def get_user_input_query() -> list:
-    query = str(input("Please type your query: "))
-    query_list = get_user_query(query)
-    return query_list
+# def get_user_input_query() -> list:
+#     query = str(input("Please type your query: "))
+#     query_list = get_user_query(query)
+#     return query_list
 
 def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
     doc_list = []
@@ -115,23 +115,19 @@ def generate_word_dict()->None:
     #d = load_dict("WordList.txt")
     #print(len(d.keys()))
 
-def start_search()->None:
-    WORD_DICT = load_dict("WordList.txt")
-    query_list = get_user_input_query()
+def start_search(user_input:str, WORD_DICT:dict)->list:
+    query_list = get_user_query(user_input)
     computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
     total_score_dict = computation.total_score_dict
     score_pq = computation.score_priotiy_queue #priority queue that stores all the docID with score
     top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #e.g. get the top 20 docs
     #[["url","descrip"]]
     top_url_and_descrip_list = generate_top_urls(top_k_docs_list)
-    #Test
-    for i in top_url_and_descrip_list:
-        print(i[0])
-        print(i[1])
-        print()
+    return top_url_and_descrip_list
+    
 
 if __name__ == "__main__":
-    start_search()
+    generate_word_dict()
    
     '''
     #Use for test before the GUI done 

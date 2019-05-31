@@ -1,4 +1,10 @@
 import tkinter
+from SearchEngine import start_search
+from SearchEngine import load_dict
+
+
+
+WORD_DICT = load_dict("WordList.txt")
 
 class Gui(object):
     def __init__(self):
@@ -14,24 +20,27 @@ class Gui(object):
         self.display_info = tkinter.Listbox(self.root, width = 100, height = 50)
 
         # create a search button
-        self.result_button = tkinter.Button(self.root, command = self.get_result, text = "Search")
+        self.search_button = tkinter.Button(self.root, command = self.get_result, text = "Search")
 
-    # 完成布局
     def gui_arrang(self):
         self.user_input.pack()
         self.display_info.pack()
-        self.result_button.pack()
+        self.search_button.pack()
 
     def get_result(self)->None:
         # get input
-        self.ip_addr = self.user_input.get()
-        
+        self.search_query = self.user_input.get()
+        top_url_and_descrip_list = start_search(self.search_query, WORD_DICT)
         # clear the display list
         self.display_info.delete(0,'end')
 
         # print the result
-        for i in range(int(self.ip_addr)):
-            self.display_info.insert(i,str(int(self.ip_addr) - i))
+        line = 0
+        for i in top_url_and_descrip_list:
+            self.display_info.insert(line, i[0])
+            self.display_info.insert(line + 1, i[1])
+            self.display_info.insert(line + 2, "")
+            line += 3
 
 
 def main():

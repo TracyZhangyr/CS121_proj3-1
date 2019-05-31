@@ -17,7 +17,6 @@ class Document:
                 soup = BeautifulSoup(file, 'html.parser')  #compute broken HTML by using BeautifulSoup
                 self.find_number_of_citation(soup)   #find number of citation in HTML
                 raw_string = soup.get_text()
-                print (self.docID)
                 list_of_string = raw_string.splitlines()
         except Exception as ex:
             print(ex.message)
