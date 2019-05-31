@@ -1,9 +1,9 @@
 from nltk.corpus import stopwords
-from main import load_dict
 from WordList import common_line_num
 import math
 from collections import defaultdict
 from queue import PriorityQueue
+import WordList
 
 STOPWORDS = set(stopwords.words('english'))
 
@@ -25,6 +25,8 @@ class Cosine_computation:
         self.query_frequence_dict = self.get_query_frequency()
         self.total_score_dict = self.ranking()
         self.score_priotiy_queue = self.score_priotiy_queue()
+        self.num_of_docs = 37497
+
 
         #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
     
@@ -92,9 +94,12 @@ class Cosine_computation:
         for query in self.query_list:
             frequency_dict[query] += 1
         for key, value in frequency_dict.items():
-            frequency_dict[key] = 1 + math.log10(value)
+            df = 1
+            if key in self.word_dict.keys():
+                df += len(self.word_dict[key].keys())
+            frequency_dict[key] = WordList.tfidf(value,df,self.num_of_docs)
         return frequency_dict
-    
+
     def get_query_normalization(self, query_frequency: int):
         total_num = 0
         for query in self.query_frequence_dict.values():
