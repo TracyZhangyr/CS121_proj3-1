@@ -12,7 +12,7 @@ class Cosine_computation:
         self.query_frequence_dict = self.get_query_frequency()
         #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
         
-    def total_score(self) -> list:
+    def ranking(self) -> list:
         #score_dict = defaultdict(float)
         #query_length = len(query_list)
         query_normalization_vector = dict()
@@ -40,6 +40,7 @@ class Cosine_computation:
                         cosine_score += inner_dict[term]["tf-idf-normal"] * query_normalization_vector[term]
                     cosine_score_dict[docID] = cosine_score
                     # dict {"docID": cosine_score}
+############################################# cosine score ############################################
         
         for docID in cosine_score_dict.keys():
             line_num_list = doc_normalization_vector[docID]["line_num"]
