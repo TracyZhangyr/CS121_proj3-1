@@ -52,8 +52,8 @@ def generate_top_urls(docIDs:["docID"])->[["url","descrip"]]:
     return [get_url_and_descrip(docID) for docID in docIDs]  
 
 
-def get_user_query() -> list:
-    user_input = str(input())
+def get_user_query(query:str) -> list:
+    user_input = query
     query_list = user_input.rstrip().split()
     return query_list
 
