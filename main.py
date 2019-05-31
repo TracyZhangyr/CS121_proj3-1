@@ -107,18 +107,17 @@ def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
             doc_list.append(doc.docID)
     return doc_list
 
-
-if __name__ == "__main__":
-    '''
-    new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
+def generate_word_dict()->None:
+	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
     #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
     index_dict = defaultdict(dict)
     indexing(index_dict,new_list)
     write_dict(index_dict, "WordList.txt")
-    '''
     #d = load_dict("WordList.txt")
     #print(len(d.keys()))
-    query_list = get_user_input_query()
+
+def start_search()->None:
+	query_list = get_user_input_query()
     computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
     total_score_dict = computation.total_score_dict
     score_pq = computation.score_priority_queue #priority queue that stores all the docID with score
@@ -130,6 +129,10 @@ if __name__ == "__main__":
         print(i[0])
         print(i[1])
         print()
+
+if __name__ == "__main__":
+    start_search()
+   
     '''
     #Use for test before the GUI done 
     input_query = str(input("Please type your query: "))
