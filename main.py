@@ -53,28 +53,35 @@ def get_url_and_descrip(docID:str)->["url","descrip"]:
 def generate_top_urls(docIDs:["docID"])->[["url","descrip"]]:
     return [get_url_and_descrip(docID) for docID in docIDs]  
 
-def write_report_part_2(file_name:str,result:[("query",["docID"])]):
+def write_report_part_2(file_name:str,result:[("query",int,["docID"])]):
     output = open(file_name,'w+')
     for pair in result:
         query = pair[0]
-        docID_list = pair[1]
+        num_of_url_retrieved = pair[1]
+        docID_list = pair[2]
         print("Query: {}".format(query),file=output)
-        print("Number of URLs retrieved: {}".format(len(docID_list)),file=output)
+        print("Number of URLs retrieved: {}".format(num_of_url_retrieved),file=output)
         print("Top 20 URLs:",file=output)
-        if(len(docID_list) >= 20):
-            for docID in docID_list[:20]:
-                url = get_url_and_descrip(docID)[0]
-                print(url,file=output)
+        for docID in docID_list:
+            url = get_url_and_descrip(docID)[0]
+            print(url,file=output)
         print("\n",file=output)
     output.close()
 
-#Need to complete      
+#Need to test    
 def generate_report_part_2(file_name:str):
     report_query_list = ["Informatics","Mondego","Irvine",
                          "artificial intelligence","computer science"]
     result = []
     for query in report_query_list:
-        pass    
+        query_list = get_user_query(query)
+        computation = Cosine_computation(query_list)
+        total_score_dict = computation.total_score_dict
+        num_of_url_retrieved = len(total_score_dict.keys())
+        score_pq = computation.score_priority_queue
+        top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #get the top 20 docs
+        result.append((query,num_of_url_retrieved,top_k_docs_list))
+         
     write_report_part_2(file_name, result)
 
 
@@ -82,6 +89,19 @@ def get_user_query(query:str) -> list:
     user_input = query
     query_list = user_input.rstrip().split()
     return query_list
+
+def get_user_input_query() -> list:
+    query = str(input("Please type your query: "))
+    query_list = get_user_query(query)
+    return query_list
+
+def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
+    doc_list = []
+    for i in range(K):
+        if not score_pq.empty():
+            doc = score_pq.get_nowait()
+            doc_list.append(doc.docID)
+    return doc_list
 
 
 if __name__ == "__main__":
