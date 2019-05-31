@@ -23,7 +23,7 @@ class Cosine_computation:
         self.query_list = self.eliminate_stop_words(query_list)
         self.word_dict = word_dict
         self.query_frequence_dict = self.get_query_frequency()
-        self.total_score_dict = self.ranking()
+        self.total_score_dict = self.score_with_no_cos()
         self.score_priotiy_queue = self.score_priotiy_queue()
         self.num_of_docs = 37497
 
@@ -35,6 +35,37 @@ class Cosine_computation:
         for docID,total_score in self.total_score_dict.items():
             pq.put(Score(docID,total_score))
         return pq
+
+        
+    def score_with_no_cos(self)->dict:
+        total_score_dict = dict()
+        select_doc_dict = dict()
+        
+        for query in set(self.query_list):
+            if query in self.word_dict.keys():      
+                for docID, inner_dict in self.word_dict[query].items():
+                    select_doc_dict[docID] = {query: inner_dict}
+                    # dict{"docID": {"tf-idf":float,"line_num":[int],"cite":int}
+            
+                for docID, inner_dict in select_doc_dict.items():
+                    total_score = 0
+                    for term in inner_dict.keys():
+                        total_score += inner_dict[term]["tf-idf"]
+                    total_score_dict[docID] = total_score
+        
+        for docID, inner_dict in select_doc_dict.items():
+            line_num_list = []
+            temp = 0
+            cite = 0
+            
+            for term in inner_dict.keys():
+                if temp == 0:
+                    cite = select_doc_dict.items[docID][term]["cite"]  #get cite for one time
+                line_num_list.append(select_doc_dict.items[docID][term]["line_num"])  #get list of list_num
+            line_num_score = self.get_line_num_score(line_num_list)
+            cite_score = self.get_cite_score(cite)
+            total_score_dict[docID] = total_score_dict[docID] + line_num_score + cite_score       
+        return total_score_dict 
   
     
     def ranking(self) -> dict:
