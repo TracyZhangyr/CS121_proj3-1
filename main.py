@@ -3,6 +3,7 @@ import WordList
 from collections import defaultdict
 import json
 from builtins import input
+import Cosine_computation
 
 def get_list_of_document(document_path: str)->list:
     list_of_Document = []
@@ -66,6 +67,8 @@ if __name__ == "__main__":
     #d = load_dict("WordList.txt")
     #print(len(d.keys()))
     query_list = get_user_query()
+    computation = Cosine_computation(query_list)
+    rank_list = computation.ranking()
     
     
     
