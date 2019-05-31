@@ -19,9 +19,9 @@ class Score:
             return True
 
 class Cosine_computation:
-    def __init__(self, query_list:[]):
+    def __init__(self, query_list:[], word_dict: dict):
         self.query_list = self.eliminate_stop_words(query_list)
-        self.word_dict = load_dict("WordList.txt")
+        self.word_dict = word_dict
         self.query_frequence_dict = self.get_query_frequency()
         self.total_score_dict = self.ranking()
         self.score_priotiy_queue = self.score_priotiy_queue()
@@ -39,17 +39,17 @@ class Cosine_computation:
         #score_dict = defaultdict(float)
         #query_length = len(query_list)
         query_normalization_vector = dict()
-        doc_normalization_vector = defaultdict()
+        doc_normalization_vector = defaultdict(dict)
         cosine_score_dict = dict()
         total_score_dict = dict()
         
         for query in set(self.query_list):
             query_frequency = self.query_frequence_dict[query]
-            query_normalization_vector[query] = query_frequency/self.get_query_normalization()  #query_normalization    
+            query_normalization_vector[query] = query_frequency/self.get_query_normalization(self.query_list)  #query_normalization    
     
-            if query in word_dict.keys():      
-                for docID, inner_dict in word_dict[query].items():
-                    doc_normalization_vector[docID].add({query: inner_dict})
+            if query in self.word_dict.keys():      
+                for docID, inner_dict in self.word_dict[query].items():
+                    doc_normalization_vector[docID] = {query: inner_dict}
                     # dict{"docID": {"tf-idf":float,"line_num":[int],"cite":int}
             
                 for docID, inner_dict in doc_normalization_vector.items():   #term_normalization

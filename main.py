@@ -6,6 +6,8 @@ from builtins import input
 import Cosine_computation
 from queue import PriorityQueue
 
+
+
 def get_list_of_document(document_path: str)->list:
     list_of_Document = []
     d = load_dict(document_path)
@@ -32,6 +34,8 @@ def load_dict(file_name:str)->dict:
 	d = json.loads(js)    
 	file.close() 
 	return d
+
+WORD_DICT = load_dict("WordList.txt")
 
 #return ["url","description"]
 def get_url_and_descrip(docID:str)->["url","descrip"]:
@@ -75,7 +79,7 @@ def generate_report_part_2(file_name:str):
     result = []
     for query in report_query_list:
         query_list = get_user_query(query)
-        computation = Cosine_computation(query_list)
+        computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
         total_score_dict = computation.total_score_dict
         num_of_url_retrieved = len(total_score_dict.keys())
         score_pq = computation.score_priority_queue
@@ -115,7 +119,7 @@ if __name__ == "__main__":
     #d = load_dict("WordList.txt")
     #print(len(d.keys()))
     query_list = get_user_input_query()
-    computation = Cosine_computation(query_list)
+    computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
     total_score_dict = computation.total_score_dict
     score_pq = computation.score_priority_queue #priority queue that stores all the docID with score
     top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #e.g. get the top 20 docs
