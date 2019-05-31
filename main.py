@@ -2,8 +2,9 @@ from Document import Document
 import WordList
 from collections import defaultdict
 import json
+from builtins import input
 
-def get_list_of_document(document_path)->list:
+def get_list_of_document(document_path: str)->list:
     list_of_Document = []
     d = load_dict(document_path)
     for k, v in d.items():
@@ -51,12 +52,21 @@ def generate_top_urls(docIDs:["docID"])->[["url","descrip"]]:
     return [get_url_and_descrip(docID) for docID in docIDs]  
 
 
+def get_user_query() -> list:
+    user_input = str(input())
+    query_list = user_input.rstrip().split()
+    return query_list
+
 if __name__ == "__main__":
 	new_list = get_list_of_document("WEBPAGES_RAW\\bookkeeping.json")
-	
-	#dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
+    #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
 	index_dict = defaultdict(dict)
-	indexing(index_dict,new_list)
-	write_dict(index_dict, "WordList.txt")
-	#d = load_dict("WordList.txt")
-	#print(len(d.keys()))
+    indexing(index_dict,new_list)
+    write_dict(index_dict, "WordList.txt")
+    #d = load_dict("WordList.txt")
+    #print(len(d.keys()))
+    query_list = get_user_query()
+    
+    
+    
+    

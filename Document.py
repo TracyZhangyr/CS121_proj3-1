@@ -2,14 +2,14 @@ from bs4 import BeautifulSoup
 import nltk
 
 class Document:
-    def __init__(self, docID, url):
+    def __init__(self, docID: int, url: str):
         self.docID = docID
         self.url = url
         self.num_of_cites = 0
         self.content = self.get_content_from_path(docID)
         
     
-    def get_content_from_path(self, docID):
+    def get_content_from_path(self, docID) -> [string]:
         list_of_string = []
         directory_path = self.change_to_directory_path(docID)
         try:
@@ -27,7 +27,7 @@ class Document:
         return list_of_string
   
                 
-    def change_to_directory_path(self, docID):
+    def change_to_directory_path(self, docID: int) -> str:
         directory_path = "WEBPAGES_RAW\\" + docID.replace('/', '\\')
         return directory_path
     
