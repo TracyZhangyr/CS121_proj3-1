@@ -36,10 +36,11 @@ def count_words(content:list) -> dict: #Dict{str:[int, set{int}]}
                     start_pointer = end_pointer
     return d
 
-def common_line_num(l:list) -> int: #l is the list of sets of line numbers, returns the max count of common line numbers
+def common_line_num(l:list) -> list: #l is the list of sets of line numbers, returns the max count of common line numbers
     d = {}
     searched_set = set()
     result = 0
+    counter = 1
 
     for s in l:
         for line_num in s:
@@ -49,9 +50,13 @@ def common_line_num(l:list) -> int: #l is the list of sets of line numbers, retu
                 for line_num_set in l:
                     if line_num in line_num_set:
                         max_lines += 1
-                if max_lines >= result:
+                if max_lines > result:
                     result = max_lines
-    return result
+                    counter = 1
+                elif max_lines == result:
+                    counter += 1
+
+    return [result, counter]
 
 
 def idf(doc_num:int,df:float)->float:

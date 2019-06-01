@@ -25,7 +25,6 @@ class Cosine_computation:
         self.query_frequence_dict = self.get_query_frequency()
         self.total_score_dict = self.score_with_no_cos()
         self.score_priotiy_queue = self.score_priotiy_queue()
-        self.num_of_docs = 37497
 
 
         #dict{"word":{"docID":{"tf-idf":float,"line_num":[int],"cite":int}}}
@@ -60,8 +59,8 @@ class Cosine_computation:
             
             for term in inner_dict.keys():
                 if temp == 0:
-                    cite = select_doc_dict.items[docID][term]["cite"]  #get cite for one time
-                line_num_list.append(select_doc_dict.items[docID][term]["line_num"])  #get list of list_num
+                    cite = select_doc_dict[docID][term]["cite"]  #get cite for one time
+                line_num_list.append(select_doc_dict[docID][term]["line_num"])  #get list of list_num
             line_num_score = self.get_line_num_score(line_num_list)
             cite_score = self.get_cite_score(cite)
             total_score_dict[docID] = total_score_dict[docID] + line_num_score + cite_score       
@@ -128,7 +127,7 @@ class Cosine_computation:
             df = 1
             if key in self.word_dict.keys():
                 df += len(self.word_dict[key].keys())
-            frequency_dict[key] = WordList.tfidf(value,df,self.num_of_docs)
+            frequency_dict[key] = WordList.tfidf(value,df,37497)
         return frequency_dict
 
     def get_query_normalization(self, query_frequency: int):
@@ -138,7 +137,8 @@ class Cosine_computation:
         return math.sqrt(total_num)
     
     def get_line_num_score(self, number_list: list):
-        return common_line_num(number_list) / len(self.query_list) * 0.5
+        data = common_line_num(number_list)
+        return data[0] / len(self.query_list) * data[1]
     
     def get_cite_score(self, cite: int):
         return cite * 0.05
