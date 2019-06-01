@@ -103,6 +103,7 @@ def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
     for i in range(K):
         if not score_pq.empty():
             doc = score_pq.get_nowait()
+            print("{}: {}".format(doc.docID,doc.total_score))
             doc_list.append(doc.docID)
     return doc_list
 

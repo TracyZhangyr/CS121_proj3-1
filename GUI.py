@@ -25,8 +25,8 @@ class Gui(object):
 
     def gui_arrang(self):
         self.user_input.pack()
-        self.display_info.pack()
         self.search_button.pack()
+        self.display_info.pack()
 
     def get_result(self)->None:
         # get input

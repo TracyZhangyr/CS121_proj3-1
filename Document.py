@@ -1,5 +1,26 @@
 from bs4 import BeautifulSoup
+from bs4.element import Comment
 import nltk
+
+
+def tag_visible(element):
+    if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+        return False
+    if isinstance(element, Comment):
+        return False
+    return True
+
+
+def text_from_html(body):
+    result = []
+    soup = BeautifulSoup(body, 'html.parser')
+    texts = soup.findAll(text=True)
+    visible_texts = filter(tag_visible, texts)  
+    for t in visible_texts:
+        if t.strip() != '':
+            result.append(t.strip())
+    return result
+
 
 class Document:
     def __init__(self, docID: int, url: str):
@@ -11,15 +32,13 @@ class Document:
     
     def get_content_from_path(self, docID) -> ["string"]:
         list_of_string = []
-        directory_path = self.change_to_directory_path(docID)
+        
         try:
+            directory_path = self.change_to_directory_path(docID)
             with open(directory_path, 'rb') as file:
-                soup = BeautifulSoup(file, 'html.parser')  #compute broken HTML by using BeautifulSoup
-                self.find_number_of_citation(soup)   #find number of citation in HTML
-                raw_string = soup.get_text()
-                list_of_string = raw_string.splitlines()
+                list_of_string = text_from_html(file)
         except Exception as ex:
-            print(ex.message)
+            print(ex)
         finally:
             if file is not None:
                 file.close()
