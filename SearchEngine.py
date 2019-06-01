@@ -35,7 +35,6 @@ def load_dict(file_name:str)->dict:
 	file.close() 
 	return d
 
-
 #return ["url","description"]
 def get_url_and_descrip(docID:str)->["url","descrip"]:
     result = []
@@ -46,10 +45,17 @@ def get_url_and_descrip(docID:str)->["url","descrip"]:
     doc = Document(docID,url)
     descrip = ""
     for line in doc.content:
-        if len(descrip) < 100:
-            descrip += line
+        if len(descrip) < 80:
+            line.rstrip()
+            if len(descrip) + len(line) < 80:
+                descrip = descrip + " " + line
+            else:
+                line_len = 80 - len(descrip)
+                descrip += line[:line_len]
+            descrip.lstrip()
         else:
             break
+    descrip.strip()
     result.append(descrip)
     return result
             
