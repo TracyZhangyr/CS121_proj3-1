@@ -45,12 +45,12 @@ def get_url_and_descrip(docID:str)->["url","descrip"]:
     doc = Document(docID,url)
     descrip = ""
     for line in doc.content:
-        if len(descrip) < 80:
+        if len(descrip) < 100:
             line.rstrip()
-            if len(descrip) + len(line) < 80:
+            if len(descrip) + len(line) < 100:
                 descrip = descrip + " " + line
             else:
-                line_len = 80 - len(descrip)
+                line_len = 100 - len(descrip)
                 descrip += line[:line_len]
             descrip.lstrip()
         else:
