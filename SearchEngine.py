@@ -82,12 +82,13 @@ def generate_report_part_2(file_name:str):
     report_query_list = ["Informatics","Mondego","Irvine",
                          "artificial intelligence","computer science"]
     result = []
+    WORD_DICT = load_dict("WordList.txt")
     for query in report_query_list:
         query_list = get_user_query(query)
         computation = Cosine_computation.Cosine_computation(query_list, WORD_DICT)
         total_score_dict = computation.total_score_dict
         num_of_url_retrieved = len(total_score_dict.keys())
-        score_pq = computation.score_priority_queue
+        score_pq = computation.score_priotiy_queue
         top_k_docs_list = produce_top_K_doc_list(score_pq, 20) #get the top 20 docs
         result.append((query,num_of_url_retrieved,top_k_docs_list))
          
@@ -109,7 +110,6 @@ def produce_top_K_doc_list(score_pq:PriorityQueue,K:int)->["docID"]:
     for i in range(K):
         if not score_pq.empty():
             doc = score_pq.get_nowait()
-            print("{}: {}".format(doc.docID,doc.total_score))
             doc_list.append(doc.docID)
     return doc_list
 
@@ -134,16 +134,16 @@ def start_search(user_input:str, WORD_DICT:dict)->list:
     
 
 if __name__ == "__main__":
-    generate_word_dict()
+    # generate_word_dict()
    
-    '''
+    
     #Use for test before the GUI done 
-    input_query = str(input("Please type your query: "))
-    query_list = get_user_query(input_query)
+    # input_query = str(input("Please type your query: "))
+    # query_list = get_user_query(input_query)
 
     #Create report.pdf part 2 only (not finished)
     generate_report_part_2("Report_Part_2.txt")
-    '''
+    
     
 
     

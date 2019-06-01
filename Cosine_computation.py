@@ -138,7 +138,7 @@ class Cosine_computation:
     
     def get_line_num_score(self, number_list: list):
         data = common_line_num(number_list)
-        return data[0] / len(self.query_list) * data[1]
+        return data[0] / len(self.query_list) 
     
     def get_cite_score(self, cite: int):
         return cite * 0.05

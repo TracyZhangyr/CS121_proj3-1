@@ -4,7 +4,7 @@ import nltk
 
 
 def tag_visible(element):
-    if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+    if element.parent.name in ['style', 'script', 'head', 'meta']:
         return False
     if isinstance(element, Comment):
         return False
@@ -12,14 +12,11 @@ def tag_visible(element):
 
 
 def text_from_html(body):
-    result = []
     soup = BeautifulSoup(body, 'html.parser')
     texts = soup.findAll(text=True)
     visible_texts = filter(tag_visible, texts)  
-    for t in visible_texts:
-        if t.strip() != '':
-            result.append(t.strip())
-    return result
+    result = u" ".join(t.strip() for t in visible_texts)
+    return result.splitlines()
 
 
 class Document:
