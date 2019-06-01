@@ -120,7 +120,7 @@ def generate_word_dict()->None:
     indexing(index_dict,new_list)
     write_dict(index_dict, "WordList.txt")
     #d = load_dict("WordList.txt")
-    #print(len(d.keys()))
+    print(len(index_dict.keys()))
 
 def start_search(user_input:str, WORD_DICT:dict)->list:
     query_list = get_user_query(user_input)
@@ -134,7 +134,7 @@ def start_search(user_input:str, WORD_DICT:dict)->list:
     
 
 if __name__ == "__main__":
-    # generate_word_dict()
+    #generate_word_dict()
    
     
     #Use for test before the GUI done 

@@ -84,17 +84,17 @@ www.ics.uci.edu/~kobsa/kobsa-publi.htm
 ibook.ics.uci.edu/references.html
 www.ics.uci.edu/~ihler/papers/bib.html
 www.ics.uci.edu/~ihler/pubs.html
-sli.ics.uci.edu/Classes/2009W-Comments
 www.ics.uci.edu/~dechter/research.html
-www.ics.uci.edu/~rickl/courses/cs-171/2014-fq-cs171/CS-171-FQ-2014.htm
-www.ics.uci.edu/faculty
-www.ics.uci.edu/faculty/index.php
-www.ics.uci.edu/~dechter/past_courses.html
 www.ics.uci.edu/~rickl/courses/cs-171/2016-fq-cs171/CS-171-FQ-2016_20160919.htm
+www.ics.uci.edu/~rickl/courses/cs-171/2014-fq-cs171/CS-171-FQ-2014.htm
 www.ics.uci.edu/~rickl/courses/cs-171/2016-fq-cs171/CS-171-FQ-2016_20160918.htm
+www.ics.uci.edu/faculty/index.php
+www.ics.uci.edu/faculty
 www.ics.uci.edu/~kibler
-www.ics.uci.edu/~emj/Mjolsness_CV_V67p.htm
+www.ics.uci.edu/~dechter/past_courses.html
+isg.ics.uci.edu/events.html
 www.ics.uci.edu/faculty/index.php?department=Computer Science
+www.ics.uci.edu/~jutts/hyman.html
 www.ics.uci.edu/~kibler/freshmanSyllabus.html
 
 

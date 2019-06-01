@@ -4,6 +4,7 @@ import math
 from collections import defaultdict
 from queue import PriorityQueue
 import WordList
+import re
 
 STOPWORDS = set(stopwords.words('english'))
 
@@ -20,7 +21,7 @@ class Score:
 
 class Cosine_computation:
     def __init__(self, query_list:[], word_dict: dict):
-        self.query_list = self.eliminate_stop_words(query_list)
+        self.query_list = self.tokenize_query_list(query_list)
         self.word_dict = word_dict
         self.query_frequence_dict = self.get_query_frequency()
         self.total_score_dict = self.score_with_no_cos()
@@ -112,11 +113,16 @@ class Cosine_computation:
         #return sorted(total_score_dict.keys(), key=lambda x: total_score_dict[x], reverse=True)
         return total_score_dict
     
-    def eliminate_stop_words(self, query_list):
+    def tokenize_query_list(self, query_list)->list:
         new_list = []
         for query in query_list:
             if (query not in STOPWORDS):
                 new_list.append(query)
+        
+        for query in new_list:
+            re.sub("[^A-Za-z0-9]","",query)
+            query.lower()
+            
         return new_list
     
     def get_query_frequency(self):
